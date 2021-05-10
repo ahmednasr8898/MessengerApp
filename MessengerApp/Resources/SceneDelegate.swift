@@ -1,8 +1,8 @@
 //
 //  SceneDelegate.swift
-//  MessengerApp
+//  Messenger
 //
-//  Created by Ahmed Nasr on 5/9/21.
+//  Created by Ahmed Nasr on 5/5/21.
 //
 
 import UIKit
