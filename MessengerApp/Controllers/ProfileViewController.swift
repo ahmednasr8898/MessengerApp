@@ -34,7 +34,7 @@ class ProfileViewController: UIViewController {
         let path = "images/"+fileName //images -> safeEmail_profile_picture.png
         
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.width, height: 300))
-        headerView.backgroundColor = .blue
+        headerView.backgroundColor = .gray
         let profileImage = UIImageView(frame: CGRect(x: (headerView.width - 150) / 2, y: 75, width: 150, height: 150))
         profileImage.contentMode = .scaleAspectFill
         profileImage.backgroundColor = .white
