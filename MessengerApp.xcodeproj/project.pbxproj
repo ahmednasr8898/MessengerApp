@@ -100,9 +100,9 @@
 				79F8CC992647A48A003ACAA3 /* AppDelegate.swift */,
 				79F8CC9B2647A48A003ACAA3 /* SceneDelegate.swift */,
 				79F8CC9A2647A48A003ACAA3 /* DatabaseManager.swift */,
+				793637E0264B6765005BCA5B /* DatabaseManager+Extension.swift */,
 				79F8CC972647A48A003ACAA3 /* StorageManager.swift */,
 				79F8CC982647A48A003ACAA3 /* Extension.swift */,
-				793637E0264B6765005BCA5B /* DatabaseManager+Extension.swift */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
