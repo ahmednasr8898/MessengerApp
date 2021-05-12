@@ -6,8 +6,12 @@
 //
 import UIKit
 import MessageKit
+import InputBarAccessoryView
 
 class ChatViewController: MessagesViewController {
+    
+    public let otherUserEmail: String
+    public var isNewConversation = false
     
     struct message: MessageType {
         var sender: SenderType
@@ -25,17 +29,27 @@ class ChatViewController: MessagesViewController {
     private var messages = [message]()
     private let selfSender = sender(senderPhoto: "", senderId: "1", displayName: "ans")
     
+    init(with email: String) {
+        self.otherUserEmail = email
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        messages.append(message(sender: selfSender, messageId: "1", sentDate: Date(), kind: .text("Hello")))
-        messages.append(message(sender: selfSender, messageId: "1", sentDate: Date(), kind: .text("Hello hello hello hello")))
-        messages.append(message(sender: selfSender, messageId: "1", sentDate: Date(), kind: .text("Hello hello helloHello hello helloHello hello hello")))
-        
         
         messagesCollectionView.messagesDataSource = self
         messagesCollectionView.messagesDisplayDelegate = self
         messagesCollectionView.messagesLayoutDelegate = self
+        messageInputBar.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        messageInputBar.inputTextView.becomeFirstResponder()
     }
 }
 
@@ -50,5 +64,23 @@ extension ChatViewController: MessagesDataSource, MessagesDisplayDelegate, Messa
     
     func numberOfSections(in messagesCollectionView: MessagesCollectionView) -> Int {
         return messages.count
+    }
+}
+
+extension ChatViewController: InputBarAccessoryViewDelegate{
+    func inputBar(_ inputBar: InputBarAccessoryView, didPressSendButtonWith text: String) {
+        guard !text.replacingOccurrences(of: " ", with: "").isEmpty else {
+            return
+        }
+        
+        print("\(text)")
+        
+        if isNewConversation{
+            //create new conversation in database
+            
+        }else{
+            //append messege in conversation in database
+            
+        }
     }
 }

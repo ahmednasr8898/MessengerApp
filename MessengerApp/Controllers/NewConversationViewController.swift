@@ -15,6 +15,8 @@ class NewConversationViewController: UIViewController {
     var users = [[String: String]]()
     var results = [[String: String]]()
     
+    public var completion: (([String: String])->(Void))?
+    
     private let searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.placeholder = "searching..."
@@ -72,10 +74,19 @@ extension NewConversationViewController: UITableViewDelegate, UITableViewDataSou
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return results.count
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SearchCell", for: indexPath)
         cell.textLabel?.text = results[indexPath.row]["name"]
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        let selectUser = results[indexPath.row]
+        dismiss(animated: true) {
+            self.completion?(selectUser)
+        }
     }
 }
 
