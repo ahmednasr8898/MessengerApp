@@ -7,7 +7,7 @@
 import Foundation
 
 extension DatabaseManager{
-    public func createNewConversation(otherUserEmail: String, firstMessage: Message, completion: @escaping (Bool)-> Void){
+    public func createNewConversation(otherUserEmail: String, name: String, firstMessage: Message, completion: @escaping (Bool)-> Void){
         guard let currentUserEmail = UserDefaults.standard.object(forKey: "email") as? String else { return }
         let safeEmail = DatabaseManager.getSafeEmail(email: currentUserEmail)
         let ref = database.child("\(safeEmail)")
@@ -50,6 +50,7 @@ extension DatabaseManager{
             let newConversation: [String: Any] = [
                 "id": conversationID ,
                 "other_user_email": otherUserEmail,
+                "name": name,
                 "latest_message": [
                     "date": dateString,
                     "message": message,
@@ -67,7 +68,7 @@ extension DatabaseManager{
                         completion(false)
                         return
                     }
-                    self?.finishCreateNewConversation(conversationID: conversationID, firstMessage: firstMessage, completion: completion)
+                    self?.finishCreateNewConversation(conversationID: conversationID, name: name, firstMessage: firstMessage, completion: completion)
                 }
             }else{
                 //conversation not exsist, we need created
@@ -77,13 +78,13 @@ extension DatabaseManager{
                         completion(false)
                         return
                     }
-                    self?.finishCreateNewConversation(conversationID: conversationID, firstMessage: firstMessage, completion: completion)
+                    self?.finishCreateNewConversation(conversationID: conversationID, name: name, firstMessage: firstMessage, completion: completion)
                 }
             }
         }
     }
     
-    private func finishCreateNewConversation(conversationID: String, firstMessage: Message, completion: @escaping (Bool)-> Void){
+    private func finishCreateNewConversation(conversationID: String, name: String, firstMessage: Message, completion: @escaping (Bool)-> Void){
         
         let messageDate = firstMessage.sentDate
         let dateString = ChatViewController.dateFormatter.string(from: messageDate)
@@ -126,7 +127,8 @@ extension DatabaseManager{
             "content": message,
             "date": dateString,
             "sender_email": currentUserEmail,
-            "is_read": false
+            "is_read": false,
+            "name": name
         ]
         
         let value: [String: Any] = [
