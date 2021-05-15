@@ -112,6 +112,9 @@ PODS:
   - nanopb/decode (2.30907.0)
   - nanopb/encode (2.30907.0)
   - PromisesObjC (1.2.12)
+  - SDWebImage (5.10.2):
+    - SDWebImage/Core (= 5.10.2)
+  - SDWebImage/Core (5.10.2)
 
 DEPENDENCIES:
   - FBSDKLoginKit
@@ -122,6 +125,7 @@ DEPENDENCIES:
   - GoogleSignIn
   - JGProgressHUD
   - MessageKit
+  - SDWebImage
 
 SPEC REPOS:
   trunk:
@@ -148,6 +152,7 @@ SPEC REPOS:
     - MessageKit
     - nanopb
     - PromisesObjC
+    - SDWebImage
 
 SPEC CHECKSUMS:
   AppAuth: 31bcec809a638d7bd2f86ea8a52bd45f6e81e7c7
@@ -173,7 +178,8 @@ SPEC CHECKSUMS:
   MessageKit: a8efaf55b021672b19ffdd5a85ce1c2f3b53058e
   nanopb: 59221d7f958fb711001e6a449489542d92ae113e
   PromisesObjC: 3113f7f76903778cf4a0586bd1ab89329a0b7b97
+  SDWebImage: b969dcfc02c40a5da71eac0b03b8f1a0c794a86f
 
-PODFILE CHECKSUM: 2eaa5aa884be0b888db637a4d40b54ec997b50f1
+PODFILE CHECKSUM: bf775694e8ae0113a4b3649eb19d009918c39925
 
 COCOAPODS: 1.10.0

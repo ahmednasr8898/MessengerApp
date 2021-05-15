@@ -14,4 +14,5 @@ target 'MessengerApp' do
   pod 'GoogleSignIn'
   pod 'MessageKit'
   pod 'JGProgressHUD'
+  pod 'SDWebImage'
 end

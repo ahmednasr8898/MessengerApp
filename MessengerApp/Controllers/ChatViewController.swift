@@ -58,6 +58,7 @@ class ChatViewController: MessagesViewController {
         return date
     }()
     
+    private let conversationID: String?
     public let otherUserEmail: String
     public var isNewConversation = false
     
@@ -67,12 +68,17 @@ class ChatViewController: MessagesViewController {
         guard let email = UserDefaults.standard.object(forKey: "email") as? String else {
             return nil
         }
-        return Sender(senderPhoto: "", senderId: email , displayName: "ans")
+        let safeEmail = DatabaseManager.getSafeEmail(email: email)
+        return Sender(senderPhoto: "", senderId: safeEmail , displayName: "Me")
     }
     
-    init(with email: String) {
+    init(with email: String, id: String?) {
+        self.conversationID = id
         self.otherUserEmail = email
         super.init(nibName: nil, bundle: nil)
+        if let conversationID = conversationID {
+            fetchMessages(id: conversationID, shouldScrollToBottom: true)
+        }
     }
     
     required init?(coder: NSCoder) {
@@ -91,6 +97,29 @@ class ChatViewController: MessagesViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         messageInputBar.inputTextView.becomeFirstResponder()
+    }
+    
+    private func fetchMessages(id: String, shouldScrollToBottom: Bool){
+        DatabaseManager.shared.getAllMessages(id: id) { [weak self](result) in
+            guard let self = self else {return}
+            switch result{
+            case .failure(let error):
+                print("failed to get all messages \(error)")
+            case .success(let messages):
+                guard !messages.isEmpty else {
+                    print("failed to get all messages (empty)")
+                    return
+                }
+                print("success to get all messages")
+                self.messages = messages
+                DispatchQueue.main.async {
+                    self.messagesCollectionView.reloadDataAndKeepOffset()
+                    if shouldScrollToBottom{
+                        self.messagesCollectionView.scrollToLastItem()
+                    }
+                }
+            }
+        }
     }
 }
 

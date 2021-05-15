@@ -70,16 +70,15 @@ final class DatabaseManager {
     public func getAllUsers(completion: @escaping (Result<[[String: String]], Error>)-> Void){
         database.child("users").observeSingleEvent(of: .value) { (datasnap) in
             guard let value = datasnap.value as? [[String: String]] else{
-                completion(.failure(DatabaseError.failedGetUsers))
+                completion(.failure(DatabaseError.failedToFetch))
                 return
             }
             completion(.success(value))
         }
-        
     }
     
     public enum DatabaseError: Error{
-        case failedGetUsers
+        case failedToFetch
     }
 }
 
