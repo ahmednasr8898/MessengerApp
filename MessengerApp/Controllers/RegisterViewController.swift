@@ -181,6 +181,7 @@ class RegisterViewController: UIViewController {
                     if success{
                         //if success upload profile picture
                         UserDefaults.standard.set(email, forKey: "email")
+                        UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
                         guard let image = strongSelf.profileImageView.image, let data = image.pngData() else {return}
                         let fileName = user.profilePicFileName
                         StorageManager.shared.uploadProfilePicture(data: data, fileName: fileName) { (result) in

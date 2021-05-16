@@ -77,6 +77,16 @@ final class DatabaseManager {
         }
     }
     
+    public func getData(path: String, completion: @escaping (Result<Any,Error>)->Void){
+        self.database.child(path).observeSingleEvent(of: .value) { (datasnap) in
+            guard let value = datasnap.value as? [[String: Any]] else {
+                completion(.failure(DatabaseError.failedToFetch))
+                return
+            }
+            completion(.success(value))
+        }
+    }
+    
     public enum DatabaseError: Error{
         case failedToFetch
     }

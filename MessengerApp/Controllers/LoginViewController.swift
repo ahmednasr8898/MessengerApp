@@ -165,6 +165,21 @@ class LoginViewController: UIViewController {
                 print("error when login")
                 return
             }
+            let safeEmail = DatabaseManager.getSafeEmail(email: email)
+            DatabaseManager.shared.getData(path: safeEmail) { (result) in
+                switch result{
+                case .failure(let error):
+                    print("failed to get data \(error)")
+                case .success(let value):
+                    guard let userData = value as? [String: Any],
+                          let firstName = userData["first_name"] as? String,
+                          let lastName = userData["last_name"] as? String else {
+                        return
+                    }
+                    UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
+                }
+            }
+            UserDefaults.standard.setValue(email, forKey: "email")
             print("Login is success")
             strongSelf.navigationController?.dismiss(animated: true, completion: nil)
         }
@@ -214,6 +229,7 @@ extension LoginViewController: LoginButtonDelegate{
                         //if success upload profile picture
                         if success{
                             UserDefaults.standard.set(email, forKey: "email")
+                            UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
                             
                             guard let url = URL(string: pictureUrl) else {
                                 return

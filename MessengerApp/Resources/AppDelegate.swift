@@ -53,6 +53,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
                     //if success upload profile picture
                     if success{
                         UserDefaults.standard.set(email, forKey: "email")
+                        UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
                         if user.profile.hasImage {
                             guard let url = user.profile.imageURL(withDimension: 200) else {
                                 return
