@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		793637E1264B6765005BCA5B /* DatabaseManager+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 793637E0264B6765005BCA5B /* DatabaseManager+Extension.swift */; };
 		799760B2264F6ACF00EC30DA /* ConversationTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 799760B1264F6ACF00EC30DA /* ConversationTableViewCell.swift */; };
+		79B077CB2650E58700CFAD58 /* PhotoViewerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79B077CA2650E58700CFAD58 /* PhotoViewerViewController.swift */; };
 		79F8CC49264798E6003ACAA3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 79F8CC48264798E6003ACAA3 /* Assets.xcassets */; };
 		79F8CC4C264798E7003ACAA3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79F8CC4A264798E6003ACAA3 /* LaunchScreen.storyboard */; };
 		79F8CC7326479A78003ACAA3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 79F8CC7226479A78003ACAA3 /* Main.storyboard */; };
@@ -32,6 +33,7 @@
 		6284DB1093FCA501789AB7DF /* Pods_MessengerApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MessengerApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		793637E0264B6765005BCA5B /* DatabaseManager+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DatabaseManager+Extension.swift"; sourceTree = "<group>"; };
 		799760B1264F6ACF00EC30DA /* ConversationTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversationTableViewCell.swift; sourceTree = "<group>"; };
+		79B077CA2650E58700CFAD58 /* PhotoViewerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewerViewController.swift; sourceTree = "<group>"; };
 		79F8CC3C264798D6003ACAA3 /* MessengerApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MessengerApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		79F8CC48264798E6003ACAA3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		79F8CC4B264798E6003ACAA3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				79F8CCA72647A55B003ACAA3 /* NewConversationViewController.swift */,
 				79F8CCA62647A55B003ACAA3 /* ChatViewController.swift */,
 				79F8CCA92647A55B003ACAA3 /* ProfileViewController.swift */,
+				79B077CA2650E58700CFAD58 /* PhotoViewerViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -308,6 +311,7 @@
 				79F8CC9E2647A48A003ACAA3 /* AppDelegate.swift in Sources */,
 				79F8CC9D2647A48A003ACAA3 /* Extension.swift in Sources */,
 				793637E1264B6765005BCA5B /* DatabaseManager+Extension.swift in Sources */,
+				79B077CB2650E58700CFAD58 /* PhotoViewerViewController.swift in Sources */,
 				79F8CCAC2647A55B003ACAA3 /* ChatViewController.swift in Sources */,
 				79F8CCB02647A55B003ACAA3 /* ConversationsViewController.swift in Sources */,
 				79F8CC9C2647A48A003ACAA3 /* StorageManager.swift in Sources */,

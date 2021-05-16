@@ -5,6 +5,7 @@
 //  Created by Ahmed Nasr on 5/12/21.
 //
 import Foundation
+import MessageKit
 
 extension DatabaseManager{
     public func createNewConversation(otherUserEmail: String, name: String, firstMessage: Message, completion: @escaping (Bool)-> Void){
@@ -208,13 +209,31 @@ extension DatabaseManager{
                       let content = messageData["content"] as? String,
                       let date = messageData["date"] as? String,
                       let senderEmail = messageData["sender_email"] as? String,
-                      //let type = messageData["type"] as? String,
+                      let type = messageData["type"] as? String,
                       //let isRead = messageData["is_read"] as? Bool,
                       let messageDateString = ChatViewController.dateFormatter.date(from: date) else {
                     return nil
                 }
+                var kind: MessageKind?
+                if type == "photo" {
+                    //photo
+                    guard let imageUrl = URL(string: content),
+                          let placeholder = UIImage(systemName: "plus") else {
+                        return nil
+                    }
+                    let media = Media(url: imageUrl, image: nil, placeholderImage: placeholder, size: CGSize(width: 300, height: 300))
+                    kind = .photo(media)
+                }else{
+                    kind = .text(content)
+                }
+                
+                guard let finalKind = kind else {return nil}
+                
                 let sender = Sender(senderPhoto: "", senderId: senderEmail, displayName: name)
-                return Message(sender: sender, messageId: messageID, sentDate: messageDateString, kind: .text(content))
+                return Message(sender: sender,
+                               messageId: messageID,
+                               sentDate: messageDateString,
+                               kind: finalKind)
             }
             completion(.success(messages))
         }
@@ -248,7 +267,10 @@ extension DatabaseManager{
                 message = messageText
             case .attributedText(_):
                 break
-            case .photo(_):
+            case .photo(let mediaItem):
+                if let targetUrlString = mediaItem.url?.absoluteString{
+                    message = targetUrlString
+                }
                 break
             case .video(_):
                 break
