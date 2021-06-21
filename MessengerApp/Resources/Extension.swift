@@ -34,4 +34,5 @@ extension UIViewController{
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "dismiss", style: .cancel, handler: nil))
         present(alert, animated: true, completion: nil)
-    }}
+    }
+}

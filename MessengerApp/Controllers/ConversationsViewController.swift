@@ -145,4 +145,27 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
         vc.navigationItem.largeTitleDisplayMode = .never
         navigationController?.pushViewController(vc, animated: true)
     }
+    
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        return .delete
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        
+        if editingStyle == .delete{
+            //begin delete
+            tableView.beginUpdates()
+            
+            let conversationID = arrOfConversations[indexPath.row].conversationID
+            DatabaseManager.shared.deleteConversation(conversationID: conversationID) {[weak self] (succes) in
+                guard let self = self else {return}
+                if succes{
+                    self.arrOfConversations.remove(at: indexPath.row)
+                    tableView.deleteRows(at: [indexPath], with: .left)
+                }
+            }
+            
+            tableView.endUpdates()
+        }
+    }
 }

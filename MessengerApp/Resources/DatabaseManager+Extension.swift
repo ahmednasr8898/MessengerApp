@@ -395,4 +395,40 @@ extension DatabaseManager{
             }
         }
     }
+    
+    public func deleteConversation(conversationID: String, complation: @escaping (Bool)-> Void){
+        guard let email = UserDefaults.standard.value(forKey: "email") as? String else {return}
+        let safeEmail = DatabaseManager.getSafeEmail(email: email)
+        
+        print("deleting conversation by ID: ", conversationID)
+        
+        //get all conversations for current user
+        //delete conversation with id
+        //reset conversations for the user
+        
+        let ref = database.child("\(safeEmail)/conversations")
+        ref.observeSingleEvent(of: .value) { (datasnap) in
+            if var conversations = datasnap.value as? [[String: Any]]{
+                var postionOfConversation = 0
+                for conversation in conversations {
+                    if let id = conversation["id"] as? String, id == conversationID{
+                    
+                        print("found vonversation to delete")
+                        break
+                    }
+                    postionOfConversation += 1
+                }
+                conversations.remove(at: postionOfConversation)
+                ref.setValue(conversations) { (error, _) in
+                    guard error == nil else {
+                        complation(false)
+                        print("failed to delete conversation")
+                        return
+                    }
+                    print("deleted conversation")
+                    complation(true)
+                }
+            }
+        }
+    }
 }
