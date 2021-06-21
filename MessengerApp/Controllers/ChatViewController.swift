@@ -128,7 +128,6 @@ class ChatViewController: MessagesViewController {
             self.presentPhotoActionsheet()
         }))
         sheet.addAction(UIAlertAction(title: "Video", style: .default, handler: { (_) in
-            
         }))
         sheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: { (_) in
             
@@ -187,6 +186,7 @@ extension ChatViewController: UIImagePickerControllerDelegate, UINavigationContr
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         picker.dismiss(animated: true, completion: nil)
         guard let image = info[UIImagePickerController.InfoKey.editedImage] as? UIImage,

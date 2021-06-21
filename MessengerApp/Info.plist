@@ -63,6 +63,10 @@
 	<string>please, allow access to take photo for profile pic.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>please, allow access to choose picture. </string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>plaese, allow access to select video and audio message.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>please, allow access to choose picture. </string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

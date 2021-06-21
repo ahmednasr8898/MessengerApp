@@ -215,6 +215,7 @@ extension DatabaseManager{
                     return nil
                 }
                 var kind: MessageKind?
+                
                 if type == "photo" {
                     //photo
                     guard let imageUrl = URL(string: content),
@@ -223,7 +224,8 @@ extension DatabaseManager{
                     }
                     let media = Media(url: imageUrl, image: nil, placeholderImage: placeholder, size: CGSize(width: 300, height: 300))
                     kind = .photo(media)
-                }else{
+                }
+                else{
                     kind = .text(content)
                 }
                 
