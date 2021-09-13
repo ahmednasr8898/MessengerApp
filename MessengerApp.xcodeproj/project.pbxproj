@@ -90,9 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				79F8CC962647A48A003ACAA3 /* Resources */,
-				79F8CCA22647A4BA003ACAA3 /* Models */,
 				79F8CCB52647ADFF003ACAA3 /* Views */,
-				79F8CCA42647A549003ACAA3 /* ViewModels */,
 				79F8CCA52647A55B003ACAA3 /* Controllers */,
 				79F8CC922647A105003ACAA3 /* GoogleService-Info.plist */,
 				79F8CC4D264798E7003ACAA3 /* Info.plist */,
@@ -111,20 +109,6 @@
 				79F8CC982647A48A003ACAA3 /* Extension.swift */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		79F8CCA22647A4BA003ACAA3 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		79F8CCA42647A549003ACAA3 /* ViewModels */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		79F8CCA52647A55B003ACAA3 /* Controllers */ = {
