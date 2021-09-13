@@ -52,7 +52,7 @@ class NewConversationViewController: UIViewController {
     }
     
     private func setup(){
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         view.addSubview(tableView)
         view.addSubview(noResultsLabel)
         
