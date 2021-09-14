@@ -8,6 +8,7 @@ import UIKit
 import MessageKit
 import InputBarAccessoryView
 import SDWebImage
+import CoreLocation
 
 struct Message: MessageType {
     public var sender: SenderType
@@ -53,6 +54,11 @@ struct Media: MediaItem {
     var url: URL?
     var image: UIImage?
     var placeholderImage: UIImage
+    var size: CGSize
+}
+
+struct Location: LocationItem {
+    var location: CLLocation
     var size: CGSize
 }
 
@@ -132,8 +138,44 @@ class ChatViewController: MessagesViewController {
         sheet.addAction(UIAlertAction(title: "Audio", style: .default, handler: { (_) in
             
         }))
+        sheet.addAction(UIAlertAction(title: "Location", style: .default, handler: { [weak self] (_) in
+            self?.presentLocationPicker()
+        }))
         sheet.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(sheet, animated: true, completion: nil)
+    }
+    
+    private func presentLocationPicker(){
+        let vc = LocationPickerViewController(coordinates: nil)
+        vc.title = "Picker Location"
+        vc.isPickable = true
+        vc.navigationItem.largeTitleDisplayMode = .never
+        vc.completion = {[weak self] selectCoordinates in
+            guard let self = self else { return }
+            
+            guard let messageID = self.createMessageID(),
+                  let conversationID = self.conversationID,
+                  let name = self.title,
+                  let selfSender = self.selfSender else {
+                return
+            }
+            
+            let longitude: Double = selectCoordinates.longitude
+            let latitude: Double = selectCoordinates.latitude
+            
+            print("longitude \(longitude) : latitude \(latitude)")
+            
+            let location = Location(location: CLLocation(latitude: latitude, longitude: longitude), size: .zero)
+            let message = Message(sender: selfSender, messageId: messageID, sentDate: Date(), kind: .location(location))
+            DatabaseManager.shared.sendMessages(conversationID: conversationID, otherUserEmail: self.otherUserEmail, name: name, newMessage: message) { (success) in
+                if success{
+                    print("success to send location message")
+                }else{
+                    print("failed to send location message")
+                }
+            }
+        }
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     private func presentPhotoActionsheet(){
@@ -293,6 +335,22 @@ extension ChatViewController: InputBarAccessoryViewDelegate{
 }
 
 extension ChatViewController: MessageCellDelegate{
+    func didTapMessage(in cell: MessageCollectionViewCell) {
+        guard let indexPath = messagesCollectionView.indexPath(for: cell) else {return}
+        let message = messages[indexPath.section]
+        
+        switch message.kind {
+        case .location(let locatioData):
+            let coordinates = locatioData.location.coordinate
+            let vc = LocationPickerViewController(coordinates: coordinates) as! LocationPickerViewController
+            vc.isPickable = false
+            vc.title = "Location"
+            self.navigationController?.pushViewController(vc, animated: true)
+        default:
+            break
+        }
+    }
+    
     func didTapImage(in cell: MessageCollectionViewCell) {
         guard let indexPath = messagesCollectionView.indexPath(for: cell) else {return}
         let message = messages[indexPath.section]
