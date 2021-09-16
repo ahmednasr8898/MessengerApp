@@ -96,6 +96,10 @@ extension ProfileViewController: UITableViewDelegate, UITableViewDataSource{
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         alert.addAction(UIAlertAction(title: "Log Out", style: .default, handler: { [weak self] (_) in
             guard let strongSelf = self else {return}
+            
+            /*UserDefaults.standard.setValue(nil, forKey: "email")
+            UserDefaults.standard.setValue(nil, forKey: "name")*/
+            
             //Log out
             strongSelf.logOut()
         }))

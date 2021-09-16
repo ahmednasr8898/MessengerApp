@@ -173,6 +173,10 @@ class RegisterViewController: UIViewController {
                     print("error when register")
                     return
                 }
+                
+               /* UserDefaults.standard.setValue(email, forKey: "email")
+                UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")*/
+                
                 DispatchQueue.main.async {
                     strongSelf.spinner.dismiss()
                 }
