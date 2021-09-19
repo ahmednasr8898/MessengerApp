@@ -7,6 +7,7 @@
 import Foundation
 import FirebaseDatabase
 
+///class for read and write data in real time database in firebase
 final class DatabaseManager {
     
     static let shared = DatabaseManager()
@@ -31,8 +32,11 @@ final class DatabaseManager {
         return safeEmail
     }
     
+    ///insert new user in real time database when user done register
     public func insertNewUser(user: UserModel, completion: @escaping (Bool)->Void){
-        database.child(user.safeEmail).setValue(["first_name": user.firstName, "last_name": user.lastName]) { (error, _) in
+        database.child(user.safeEmail).setValue(["first_name": user.firstName, "last_name": user.lastName]) {[weak self] (error, _) in
+            guard let self = self else {return}
+            
             guard error == nil else{
                 print("failed to insert user")
                 completion(false)
@@ -66,7 +70,7 @@ final class DatabaseManager {
             completion(true)
         }
     }
-    
+    ///return all user from database
     public func getAllUsers(completion: @escaping (Result<[[String: String]], Error>)-> Void){
         database.child("users").observeSingleEvent(of: .value) { (datasnap) in
             guard let value = datasnap.value as? [[String: String]] else{
@@ -77,22 +81,8 @@ final class DatabaseManager {
         }
     }
     
-    public func getUser(email: String, completion: @escaping (String)-> Void){
-        self.database.child(email).observeSingleEvent(of: .value, with: { snapshot in
-          // Get user value
-            let value = snapshot.value as? [String: Any]
-          let firstName = value?["first_name"] as? String ?? ""
-            let lastName = value?["last_name"] as? String ?? ""
-
-            completion("\(firstName) \(lastName)")
-        
-        }) { error in
-          print(error.localizedDescription)
-        }
-    }
-    
     public func getData(path: String, completion: @escaping (Result<Any,Error>)->Void){
-        self.database.child(path).observeSingleEvent(of: .value) { (datasnap) in
+        database.child(path).observeSingleEvent(of: .value) { (datasnap) in
             guard let value = datasnap.value as? [[String: Any]] else {
                 completion(.failure(DatabaseError.failedToFetch))
                 return
@@ -100,7 +90,6 @@ final class DatabaseManager {
             completion(.success(value))
         }
     }
-
     
     public enum DatabaseError: Error{
         case failedToFetch
@@ -140,16 +129,3 @@ final class DatabaseManager {
     }
 }
 
-struct UserModel {
-    let firstName: String
-    let lastName: String
-    let email: String
-    var safeEmail: String{
-        var safeEmail = email.replacingOccurrences(of: ".", with: "-")
-        safeEmail = safeEmail.replacingOccurrences(of: "@", with: "-")
-        return safeEmail
-    }
-    var profilePicFileName: String {
-        return "\(safeEmail)_profile_picture.png"
-    }
-}

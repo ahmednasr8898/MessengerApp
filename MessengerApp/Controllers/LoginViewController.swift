@@ -10,7 +10,7 @@ import FBSDKLoginKit
 import GoogleSignIn
 import JGProgressHUD
 
-class LoginViewController: UIViewController {
+final class LoginViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -136,10 +136,10 @@ class LoginViewController: UIViewController {
     
     private func notificationCenterForLoginGoogle(){
         loginObserver = NotificationCenter.default.addObserver(forName: Notification.Name("didLogInNotification"), object: nil, queue: .main, using: { [weak self] _ in
-            guard let strongSelf = self else {
+            guard let self = self else {
                 return
             }
-            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            self.navigationController?.dismiss(animated: true, completion: nil)
         })
     }
     
@@ -151,15 +151,15 @@ class LoginViewController: UIViewController {
     
     private func vaildFields(){
         guard let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty, password.count >= 6 else {
-            self.alertError(title: "problem happend!", message: "please, enter all information to login...")
+            alertError(title: "problem happend!", message: "please, enter all information to login...")
             return
         }
         spinner.show(in: view)
         // login with firebase
         FirebaseAuth.Auth.auth().signIn(withEmail: email, password: password) { [weak self] result, error in
-            guard let strongSelf = self else{return}
+            guard let self = self else{return}
             DispatchQueue.main.async {
-                strongSelf.spinner.dismiss()
+                self.spinner.dismiss()
             }
             guard error == nil else{
                 print("error when login")
@@ -181,7 +181,7 @@ class LoginViewController: UIViewController {
             }
             UserDefaults.standard.setValue(email, forKey: "email")
             print("Login is success")
-            strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+            self.navigationController?.dismiss(animated: true, completion: nil)
         }
     }
 }
@@ -258,7 +258,7 @@ extension LoginViewController: LoginButtonDelegate{
             }
             let credential = FacebookAuthProvider.credential(withAccessToken: token)
             FirebaseAuth.Auth.auth().signIn(with: credential) { [weak self] (result, error) in
-                guard let strongSelf = self else {
+                guard let self = self else {
                     return
                 }
                 guard result != nil, error == nil else {
@@ -268,7 +268,7 @@ extension LoginViewController: LoginButtonDelegate{
                     return
                 }
                 print("Successfully logged user in")
-                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                self.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
     }

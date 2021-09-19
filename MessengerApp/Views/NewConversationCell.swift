@@ -44,10 +44,12 @@ class NewConversationCell: UITableViewCell {
     }
     
     public func configure(model: SearchResult){
-        self.userNameLabel.text = model.name
+        userNameLabel.text = model.name
         
         let path = "images/\(model.email)_profile_picture.png"
-        StorageManager.shared.downloadUrl(path: path) { (result) in
+        StorageManager.shared.downloadUrl(path: path) {[weak self] (result) in
+            guard let self = self else {return}
+            
             switch result{
             case .failure(let error):
                 print("failed to download url for profile pic in conversation \(error)")

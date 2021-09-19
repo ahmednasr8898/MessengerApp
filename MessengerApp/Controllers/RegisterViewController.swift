@@ -8,7 +8,7 @@ import UIKit
 import FirebaseAuth
 import JGProgressHUD
 
-class RegisterViewController: UIViewController {
+final class RegisterViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -156,16 +156,16 @@ class RegisterViewController: UIViewController {
     
     private func vaildFields(){
         guard let firstName = firstNameTextField.text, !firstName.isEmpty, let lastName = lastNameTextField.text, !lastName.isEmpty, let email = emailTextField.text, !email.isEmpty, let password = passwordTextField.text, !password.isEmpty, password.count >= 6 else {
-            self.alertError(title: "problem happend!", message: "please, enter all information to register...")
+            alertError(title: "problem happend!", message: "please, enter all information to register...")
             return
         }
         spinner.show(in: view)
         // register with firebase
         DatabaseManager.shared.checkIfUserExist(email: email) { [weak self] isExist in
-            guard let strongSelf = self else{return}
+            guard let self = self else{return}
             guard !isExist else {
                 //user alrady exsist
-                strongSelf.alertError(title: "problem happend!", message: "this email alrady exsist..")
+                self.alertError(title: "problem happend!", message: "this email alrady exsist..")
                 return
             }
             FirebaseAuth.Auth.auth().createUser(withEmail: email, password: password) { result, erorr in
@@ -178,7 +178,7 @@ class RegisterViewController: UIViewController {
                 UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")*/
                 
                 DispatchQueue.main.async {
-                    strongSelf.spinner.dismiss()
+                    self.spinner.dismiss()
                 }
                 let user = UserModel(firstName: firstName, lastName: lastName, email: email)
                 DatabaseManager.shared.insertNewUser(user: user) { (success) in
@@ -186,7 +186,7 @@ class RegisterViewController: UIViewController {
                         //if success upload profile picture
                         UserDefaults.standard.set(email, forKey: "email")
                         UserDefaults.standard.setValue("\(firstName) \(lastName)", forKey: "name")
-                        guard let image = strongSelf.profileImageView.image, let data = image.pngData() else {return}
+                        guard let image = self.profileImageView.image, let data = image.pngData() else {return}
                         let fileName = user.profilePicFileName
                         StorageManager.shared.uploadProfilePicture(data: data, fileName: fileName) { (result) in
                             switch result{
@@ -199,7 +199,7 @@ class RegisterViewController: UIViewController {
                         }
                     }
                 }
-                strongSelf.navigationController?.dismiss(animated: true, completion: nil)
+                self.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
     }

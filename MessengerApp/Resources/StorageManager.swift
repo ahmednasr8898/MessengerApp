@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseStorage
 
+///class for get and post file to database storage
 final class StorageManager{
     
     static let shared = StorageManager()
@@ -16,7 +17,9 @@ final class StorageManager{
     public typealias uploadPictureCompletion = (Result<String, Error>) -> Void
     
     public func uploadProfilePicture(data: Data, fileName: String, completion: @escaping uploadPictureCompletion){
-        storage.child("images/\(fileName)").putData(data, metadata: nil, completion: { metadata, error in
+        storage.child("images/\(fileName)").putData(data, metadata: nil, completion: {[weak self] metadata, error in
+            guard let self = self else {return}
+            
             guard error == nil else{
                 print("failed to upload data to firebase for picture")
                 completion(.failure(StorageErrors.failedToUpload))
@@ -39,6 +42,7 @@ final class StorageManager{
     public func uploadPhotoMessage(data: Data, fileName: String, completion: @escaping uploadPictureCompletion){
         storage.child("message_images/\(fileName)").putData(data, metadata: nil, completion: {[weak self] metadata, error in
             guard let self = self else {return}
+            
             guard error == nil else{
                 print("failed to upload data to firebase for picture")
                 completion(.failure(StorageErrors.failedToUpload))

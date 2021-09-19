@@ -7,7 +7,7 @@
 import UIKit
 import JGProgressHUD
 
-class NewConversationViewController: UIViewController {
+final class NewConversationViewController: UIViewController {
     
     private let spinner = JGProgressHUD(style: .dark)
     
@@ -147,17 +147,14 @@ extension NewConversationViewController: UISearchBarDelegate{
     
     private func updateUI(){
         if results.isEmpty{
-            self.noResultsLabel.isHidden = false
-            self.tableView.isHidden = true
+            noResultsLabel.isHidden = false
+            tableView.isHidden = true
         }else{
-            self.noResultsLabel.isHidden = true
-            self.tableView.isHidden = false
-            self.tableView.reloadData()
+            noResultsLabel.isHidden = true
+            tableView.isHidden = false
+            tableView.reloadData()
         }
     }
 }
 
-struct SearchResult {
-    let name: String
-    let email: String
-}
+

@@ -10,16 +10,7 @@ import FBSDKLoginKit
 import GoogleSignIn
 import SDWebImage
 
-enum profileViewModelType {
-    case info, logout
-}
-struct ProfileViewModel {
-    let viewModelType: profileViewModelType
-    let title: String
-    let handler: (() -> Void)?
-}
-
-class ProfileViewController: UIViewController {
+final class ProfileViewController: UIViewController {
     
     @IBOutlet weak var tableView: UITableView!
     var data = [ProfileViewModel]()
@@ -128,13 +119,13 @@ class ProfileTableViewCell: UITableViewCell{
     static let identifier = "ProfileTableViewCell"
     
     public func setUp(with viewModel: ProfileViewModel){
-        self.textLabel?.text = viewModel.title
+        textLabel?.text = viewModel.title
         switch viewModel.viewModelType {
         case .info:
-            self.textLabel?.textAlignment = .left
+            textLabel?.textAlignment = .left
         case .logout:
-            self.textLabel?.textColor = .red
-            self.textLabel?.textAlignment = .center
+            textLabel?.textColor = .red
+            textLabel?.textAlignment = .center
         }
     }
 }

@@ -7,19 +7,7 @@
 import UIKit
 import FirebaseAuth
 
-struct Conversation {
-    let conversationID: String
-    let name: String
-    let otherUserEmail: String
-    let latestMessage: LatestMessage
-}
-struct LatestMessage {
-    let message: String
-    let date: String
-    let isRead: Bool
-}
-
-class ConversationsViewController: UIViewController {
+final class ConversationsViewController: UIViewController {
     
     var arrOfConversations = [Conversation]()
     
@@ -193,14 +181,14 @@ extension ConversationsViewController: UITableViewDelegate, UITableViewDataSourc
             tableView.beginUpdates()
             
             let conversationID = arrOfConversations[indexPath.row].conversationID
-            DatabaseManager.shared.deleteConversation(conversationID: conversationID) {[weak self] (succes) in
-                guard let self = self else {return}
-                if succes{
-                    self.arrOfConversations.remove(at: indexPath.row)
-                    tableView.deleteRows(at: [indexPath], with: .left)
+            self.arrOfConversations.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .left)
+            
+            DatabaseManager.shared.deleteConversation(conversationID: conversationID) {(succes) in
+                 if !succes{
+                    print("failed to delete conversation")
                 }
             }
-            
             tableView.endUpdates()
         }
     }

@@ -9,13 +9,16 @@ import MessageKit
 import CoreLocation
 
 extension DatabaseManager{
+    ///create new conversation and  added to database real time
     public func createNewConversation(otherUserEmail: String, name: String, firstMessage: Message, completion: @escaping (Bool)-> Void){
         guard let currentUserEmail = UserDefaults.standard.object(forKey: "email") as? String,
               let currentName = UserDefaults.standard.object(forKey: "name") as? String else { return }
         let safeEmail = DatabaseManager.getSafeEmail(email: currentUserEmail)
         let ref = database.child("\(safeEmail)")
         
-        ref.observeSingleEvent(of: .value) { (datasnap) in
+        ref.observeSingleEvent(of: .value) {[weak self] (datasnap) in
+            guard let self = self else {return}
+            
             guard var userNode = datasnap.value as? [String: Any] else {
                 completion(false)
                 print("user not found")
@@ -263,8 +266,9 @@ extension DatabaseManager{
         }
         let currentEmail = DatabaseManager.getSafeEmail(email: myEmail)
         
-        self.database.child("\(conversationID)/messages").observeSingleEvent(of: .value) {[weak self] (datasnap) in
+        database.child("\(conversationID)/messages").observeSingleEvent(of: .value) {[weak self] (datasnap) in
             guard let self = self else {return}
+            
             guard var currentMessages = datasnap.value as? [[String: Any]] else{
                 completion(false)
                 return
