@@ -113,8 +113,8 @@
 		79F8CC3E264798D6003ACAA3 /* MessengerApp */ = {
 			isa = PBXGroup;
 			children = (
-				79181EAA26F7763900AB0941 /* Models */,
 				79F8CC962647A48A003ACAA3 /* Resources */,
+				79181EAA26F7763900AB0941 /* Models */,
 				79F8CCB52647ADFF003ACAA3 /* Views */,
 				79F8CCA52647A55B003ACAA3 /* Controllers */,
 				79F8CC922647A105003ACAA3 /* GoogleService-Info.plist */,
