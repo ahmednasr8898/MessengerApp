@@ -34,12 +34,13 @@ final class ConversationsViewController: UIViewController {
         view.addSubview(tableView)
         view.addSubview(noConversationLabel)
         setupTableView()
-        fetchConversation()
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         checkAuth()
+        fetchConversation()
     }
     
     override func viewDidLayoutSubviews() {
